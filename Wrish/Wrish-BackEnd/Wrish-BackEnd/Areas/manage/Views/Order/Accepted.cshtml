@@ -1,0 +1,37 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "DeliveryStatus";
+}
+
+<div class="container">
+    
+        <div class="row">            
+            <div class="col-lg-4">
+                
+                <form method="post" asp-action="OnDepot" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id">
+                    <button type="submit" style="pointer-events:@(Model.DeliveryStatus==OrderDeliveryStatus.OnDepot?" none":"visible")" class="btn btn-primary btn-icon-split my-3 text-center"><span class="icon text-white-50"><i class="fas fa-arrow-right"></i></span><span class="text">On Depot</span></button>
+                </form>
+
+            </div>
+            <div class="col-lg-4">
+
+                <form method="post" asp-action="OnCouirer" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id">
+                    <button type="submit" style="pointer-events:@(Model.DeliveryStatus==OrderDeliveryStatus.OnCourier?" none":"visible")" class="btn btn-info btn-icon-split my-3 text-center"><span class="icon text-white-50"><i class="fas fa-arrow-right"></i></span><span class="text">On Couirer</span></button>
+                </form>
+
+            </div>
+            <div class="col-lg-4">
+
+                <form method="post" asp-action="Delivered" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id">
+                    <button type="submit" style="pointer-events:@(Model.DeliveryStatus==OrderDeliveryStatus.Delivered?" none":"visible")" class="btn btn-info btn-icon-split my-3 text-center"><span class="icon text-white-50"><i class="fas fa-arrow-right"></i></span><span class="text">Delivered</span></button>
+                </form>
+
+            </div>
+        </div>
+
+    
+    </div>
+

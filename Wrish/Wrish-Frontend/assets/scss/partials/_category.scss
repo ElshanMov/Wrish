@@ -1,0 +1,62 @@
+@import "./variable";
+
+#category {
+  padding-bottom: 3rem;
+  .container {
+    .row {
+      .category-body {
+        margin-bottom: 2rem;
+        .category-img {
+          overflow: hidden !important;
+
+          img {
+            transition: 0.7s all ease !important;
+            overflow: hidden !important;
+            width: 100% !important;
+          }
+          position: relative;
+          .bufer {
+            justify-content: center;
+            display: flex;
+            bottom: 0;
+            transform: translateY(0);
+            top: auto;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            padding: 0 0 46px 0;
+            .content {
+              height: 90px;
+              text-align: center;
+              h3 {
+                font-size: 28px;
+                font-weight: 400;
+                letter-spacing: 2px;
+                color: #fff;
+                margin-bottom: 20px;
+              }
+              a {
+                padding: 12px 30px 12px 30px;
+                fill: #000;
+                color: #000;
+                background-color: #fff;
+                font-size: 12px;
+                font-weight: 400;
+                letter-spacing: 1px;
+                &:hover {
+                  filter: invert(1);
+                  font-weight: 500;
+                }
+              }
+            }
+          }
+        }
+        &:hover {
+          img {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+}

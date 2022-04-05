@@ -1,0 +1,112 @@
+﻿@model ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+@{ 
+    int count = 0;
+}
+
+
+        <main>
+            <section id="my-account">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="nav flex-column nav-pills col-lg-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Orders</button>
+                            <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Account Details</button>
+
+                        </div>
+                        <div class="tab-content col-lg-9" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" zzz>
+                                <div class="myaccount-content">
+                                    <div class="container">
+                                        <div class="col-md-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    Orders
+                                                </div>
+                                                <div class="panel-body">
+                                                    <table class="table table-condensed table-striped">
+                                                        <thead class="text-white table-dark">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Code</th>
+                                                                <th>CreatedAt</th>
+                                                                <th>Status</th>
+                                                                <th>DeliveryStatus</th>
+                                                                <th>Amount</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            @foreach (var order in Model.Orders)
+                                                                    {
+                                                                        count++;
+                                                                <tr data-bs-toggle="collapse" data-bs-target="#demo@(count)" class="accordion-toggle">
+                                                                    <td>@count</td>
+                                                                    <td>@(order.CodePrefix+order.CodeNumber)</td>
+                                                                    <td>@order.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                                                    <td>@order.Status</td>
+                                                                    <td>@(order.DeliveryStatus==null?"unspecified":order.DeliveryStatus.ToString())</td>
+                                                                    <td>@order.TotalAmount</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td colspan="12" style="padding: 0 !important;">
+                                                                        <div class="accordian-body collapse" id="demo@(count)">
+                                                                            <table class="table table-striped">
+                                                                                <thead class="">
+                                                                                    <tr class="info">
+                                                                                        <th>Product Name</th>
+                                                                                        <th>Price</th>
+                                                                                        <th>DiscountPercent</th>
+                                                                                        <th>SoldPrice</th>
+                                                                                        <th>Count</th>
+                                                                                    </tr>
+                                                                                </thead>
+
+                                                                                <tbody>
+                                                                                    @foreach (var item in order.OrderItems)
+                                                                                    {
+                                                                                    <tr data-bs-toggle="collapse" class="accordion-toggle" data-bs-target="#demo10">
+                                                                                        <td> <a style="color:#000" asp-action="index" asp-controller="productdetail" asp-route-id="@item.ProductId">@item.Product.Name</a></td>
+                                                                                        <td>@item.SalePrice</td>
+                                                                                        <td>@item.DiscountPrice</td>
+                                                                                        <td>@((item.DiscountPrice>0?item.SalePrice*(1-item.DiscountPrice/100):item.SalePrice).ToString("0.00"))</td>
+                                                                                        <td>@item.Count</td>
+                                                                                    </tr>
+
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
+
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                @await Html.PartialAsync("_MemberUpdateFormPartial", Model.Member)
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+        </main>
+       

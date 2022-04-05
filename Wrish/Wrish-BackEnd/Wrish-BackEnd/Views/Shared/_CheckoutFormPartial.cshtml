@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model Order
+@inject UserManager<AppUser> usermanager
+@{
+    AppUser user = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        user = usermanager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name && x.isAdmin == false);
+    }
+}
+
+<div class="billing-details">
+    <h3>Billing details</h3>
+    @if (user==null)
+    {
+        <div class="form-group">
+            <label asp-for="FullName" class="required">Full Name</label>
+            <input asp-for="FullName"  class="form-control" id="lastname">
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="required">Email</label>
+            <input asp-for="Email"  class="form-control" id="email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+        </div>
+    }
+
+    <div class="form-group">
+        <label asp-for="Country" class="required">Country</label>
+        <input asp-for="Country" class="form-control" id="lastname">
+        <span asp-validation-for="Country" class="text-danger"></span>
+
+    </div>  
+    <div class="form-group">
+        <label asp-for="Address" class="required">Adress</label>
+        <input asp-for="Address" class="form-control" id="address">
+        <span asp-validation-for="Address" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="City" class="required">City</label>
+        <input asp-for="City" class="form-control" id="city">
+        <span asp-validation-for="City" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="Postcode" class="required">Post Code</label>
+        <input asp-for="Postcode" class="form-control" id="postcode">
+        <span asp-validation-for="Postcode" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="Phone" class="required">Phone</label>
+        <input asp-for="Phone" class="form-control" id="phone">
+        <span asp-validation-for="Phone" class="text-danger"></span>
+
+    </div>
+
+</div>
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial");
+}

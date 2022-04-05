@@ -1,0 +1,44 @@
+﻿@model FilterProductViewModel
+
+@foreach (var product in Model.Products)
+{
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 col-sep">
+        <div class="product-body">
+            <div class="img-body">
+                <a href="product-detail.html"><img class="img-fluid poster-img" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="xorus_red"></a>
+                <a href="product-detail.html"><img class="img-fluid hover-img" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==false).Image" alt="xorus_hover"></a>
+            </div>
+            @if (product.DiscountPrice > 0)
+            {
+                <span class="discount-percent">-@(product.DiscountPrice.ToString("#00"))%</span>
+            }
+            <div class="product-button animate__animated">
+                <a href="#"><i class="fa-solid fa-heart product-wishlist"></i></a>
+                <a href="#" class="lupa single-lupa-btn" data-bs-toggle="modal" data-bs-target="#shopModal" data-id="6"><i class="fa-solid fa-magnifying-glass"></i></a>
+            </div>
+            <div class="product-content">
+                <a class="cat-products" href="#">@product.Brand.Name</a>
+                <a class="product-title" href="#">@product.Name</a>
+                <div class="price">
+                    <span class="amount">
+                        @if (product.DiscountPrice > 0)
+                        {
+                            <bdi>$<span class="old-price">@product.SalePrice</span></bdi>
+                            <span class="dollar-symbol">$</span>
+                            @((product.SalePrice*(100-product.DiscountPrice)/100).ToString("#.00"))
+                        }
+                        else
+                        {
+                            <span class="dollar-symbol">$</span>
+                            @product.SalePrice
+                        }
+                    </span>
+                </div>
+                <div class="btn-shop">
+                    <a class="add-to-card" href="#"><span>ADD TO CART</span><i class="fa-solid fa-bag-shopping"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

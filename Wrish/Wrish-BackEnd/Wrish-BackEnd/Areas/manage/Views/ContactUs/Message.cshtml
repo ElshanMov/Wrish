@@ -1,0 +1,37 @@
+﻿@model ContactUs
+@{
+    ViewData["Title"] = "Contact Us";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1 class="mb-4">Message Information</h1>
+        </div>
+        <div class="col-lg-8 mx-auto pb-5 d-flex justify-content-center">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">FullName: @Model.FullName</h5>
+                    <h5 class="card-title">Email: @Model.Email</h5>
+                    <h5 class="card-title">Text: @Model.Text</h5>
+                    <h5 class="card-title">Status: <span class="badge badge-@(Model.Status?"success":"danger")">@(Model.Status?"Answered":"Not Answered")</span></h5>
+                    @if (!Model.Status)
+                    {
+                <form method="post" asp-action="AcceptMessage" style="box-shadow:none;outline:none">
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Write your message" name="Text" style="height: 100px"></textarea>
+                    </div>
+                    <input name="Id" value="@Model.Id" type="hidden" />
+                    <input name="FullName" value="@Model.FullName" type="hidden" />
+                    <input name="Email" value="@Model.Email" type="hidden" />
+                    <button type="submit" class="btn btn-primary float-left" style="margin-right:4px">Send</button>
+                </form>
+                    }
+                    <a asp-action="delete" asp-route-id="@Model.Id" class="btn btn-danger delete-btn">Delete</a>
+                    <a asp-action="index" class="btn btn-info float-right">Go to back</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

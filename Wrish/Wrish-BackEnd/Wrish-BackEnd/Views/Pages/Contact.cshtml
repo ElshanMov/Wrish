@@ -1,0 +1,98 @@
+﻿@model ContactUs
+@inject LayoutService service
+@{
+    ViewData["Title"] = "Contact";
+    List<Setting> settings = await service.GetSettings();
+}
+
+<main>
+    <section id="contact-map">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="page-title">
+                        <h1>Contact Us</h1>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158949.05470068892!2d-0.14456358325640115!3d51.50259315118896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b900d26973%3A0x4291f3172409ea92!2sLondon%20Eye!5e0!3m2!1str!2s!4v1645098533622!5m2!1str!2s" style="border:0; width: 100%;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="need-help">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="title">
+                        <h1>Need Help?</h1>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="contact-item">
+                        <h4 class="phone-title">PHONE</h4>
+                        <p class="phone">@settings.FirstOrDefault(x=>x.Key=="Contact-phone").Value</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="contact-item">
+                        <h4>CUSTOMER SERVICE</h4>
+                        <p>@settings.FirstOrDefault(x => x.Key == "Open-week-text").Value</p>
+                        <p>@settings.FirstOrDefault(x => x.Key == "Open-time-text").Value</p>
+                        <p>@settings.FirstOrDefault(x => x.Key == "Closed-week-text").Value</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="contact-item">
+                        <h4>RETURNS</h4>
+                        <p>@settings.FirstOrDefault(x => x.Key == "Returns-text").Value <a style="color:#000;text-decoration:underline" asp-action="faq" asp-controller="pages">here.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact-form">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-title">
+                        <h1>Send Us Your Questions!</h1>
+                        <h5>We`ll get back to you within two days</h5>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="form-content">
+                        <form method="post" asp-action="contact">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" asp-for="FullName" placeholder="Full Name">
+                                        <span class="text-danger" asp-validation-for="FullName"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" asp-for="Email" placeholder="Full Email">
+                                        <span class="text-danger" asp-validation-for="Email"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" cols="40" rows="10" placeholder="Your message..." asp-for="Text"></textarea>
+                                <span class="text-danger" asp-validation-for="Text"></span>
+                            </div>
+                            <div class="submit-btn">
+                                <button type="submit">SUBMIT</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+</main>
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

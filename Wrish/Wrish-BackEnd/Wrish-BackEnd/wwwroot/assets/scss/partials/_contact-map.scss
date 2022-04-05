@@ -1,0 +1,31 @@
+@import "./variable";
+
+#contact-map {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  .container {
+    .row {
+      justify-content: center;
+      .page-title {
+        margin-bottom: 30px;
+        h1 {
+          font-size: 45px;
+          font-weight: 400;
+          letter-spacing: 1px;
+          line-height: 1;
+          color: $main-color;
+        }
+        text-align: center;
+      }
+      iframe {
+        height: 600px;
+        @media (max-width: 991px) {
+          height: 500px;
+        }
+        @media (max-width: 551px) {
+          height: 400px;
+        }
+      }
+    }
+  }
+}

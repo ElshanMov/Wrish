@@ -1,0 +1,82 @@
+@import "./variable";
+#contact-form {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  background-image: url("/assets/images/settings/contact-form-background.jpg"); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: auto; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  .container {
+    .row {
+      text-align: center;
+      justify-content: center;
+      .form-title {
+        h1 {
+          color: #000;
+          font-size: 35px;
+          font-weight: 400;
+        }
+        h5 {
+          font-size: 14px;
+          color: $font-color;
+          margin: 1rem 0rem 2rem 0rem;
+        }
+      }
+      .form-content {
+        form {
+          .form-group {
+            input {
+              height: 50px;
+              font-size: 13px;
+              line-height: 50px;
+              margin-bottom: 50px;
+              width: 100%;
+              padding: 10px 20px;
+              color: #000;
+              font-weight: 400;
+              border: 1px solid #3a3a3a;
+              background: #fff;
+              border-radius: 0;
+              box-shadow: none;
+            }
+            textarea {
+              width: 100%;
+              color: #000;
+              max-height: 260px;
+              padding: 10px 20px;
+              font-weight: 400;
+              margin-bottom: 23px;
+              background: #fff;
+              border: 1px solid #3a3a3a;
+              border-radius: 0;
+              box-shadow: none;
+            }
+          }
+          .submit-btn {
+            button {
+              height: 45px;
+              line-height: 45px;
+              text-transform: uppercase;
+              font-size: 14px;
+              letter-spacing: 3px;
+              font-weight: 400;
+              padding: 0 15px;
+              min-width: 185px;
+              color: #fff;
+              background: #6b6b6b;
+              border: none;
+              -webkit-transition: all 0.3s ease;
+              transition: all 0.3s ease;
+              cursor: pointer;
+              &:hover {
+                background-color: #000;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

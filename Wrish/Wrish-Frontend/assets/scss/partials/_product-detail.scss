@@ -1,0 +1,285 @@
+@import "./variable";
+#product-detail-slider {
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+  .product-detail-left {
+    .flexslider {
+      margin: 0px;
+    }
+
+    #slider {
+      padding: 0px;
+
+      .flex-prev {
+        display: none;
+      }
+      .flex-next {
+        display: none;
+      }
+
+      li {
+        cursor: pointer;
+
+        img {
+          width: 609.156px;
+          //   height: 609.156px;
+        }
+      }
+    }
+    #carousel {
+      text-align: center;
+
+      .slides {
+        width: 100%;
+
+        li {
+          cursor: pointer;
+        }
+      }
+      .flex-direction-nav {
+        a {
+          height: 35px;
+          &::before {
+            font-size: 27px;
+          }
+        }
+      }
+      .flex-control-nav {
+        display: none;
+      }
+    }
+  }
+
+  .product-detail-right {
+    @media (max-width: 1600px) {
+      padding-left: 50px;
+      padding-top: 50px;
+    }
+    @media (max-width: 991px) {
+      padding-left: 0;
+    }
+    .product-etab {
+      margin-bottom: 7px;
+      font-size: 13px;
+      a {
+        color: $font-color;
+        &:hover {
+          color: $main-color;
+        }
+      }
+      i {
+        font-size: 10px;
+        padding-left: 0.225rem;
+        padding-right: 0.225rem;
+        color: $font-color;
+      }
+    }
+    .detail-review {
+      letter-spacing: 1px;
+      color: #ff9e21;
+      font-size: 10px;
+
+      .review-count {
+        margin-left: 1rem;
+        color: $font-color;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 30px;
+      }
+    }
+    .product-name {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 50px;
+      color: $main-color;
+      @media (max-width: 551px) {
+        font-size: 28px;
+      }
+    }
+    .price-single {
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #e5e5e5;
+      .old-price {
+        font-size: 18px;
+        text-decoration: line-through;
+        color: $font-color;
+        font-weight: 500;
+        margin-right: 0.5rem;
+        display: inline-flex;
+        align-items: center;
+      }
+      display: flex;
+      font-size: 22px;
+      color: $main-color;
+
+      .discount-border {
+        margin-left: 1rem;
+        border: 2px solid #ff4545;
+        padding: 2px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #ff4545;
+      }
+    }
+    .description {
+      margin-bottom: 13px;
+      padding-bottom: 15px;
+      p {
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.75;
+        color: #868686;
+        text-align: left;
+      }
+    }
+    .detail-addtocard {
+      display: flex;
+      .quantity {
+        margin: 0;
+        border: 2px solid #ddd !important;
+        height: 50px;
+        display: inline-block;
+        margin-right: 7px;
+        position: relative;
+        .plus {
+          position: absolute;
+          top: 0;
+          right: 0;
+          background: transparent;
+          line-height: 24px;
+          border: none;
+          width: 38px;
+          height: 46px;
+          color: #868686;
+        }
+        .input-group-field {
+          width: 125px;
+          border: 0;
+          height: 46px;
+          text-align: center;
+          padding: 0 38px;
+          font-size: 18px;
+          font-weight: 500;
+          @media (max-width: 551px) {
+            width: 90px;
+          }
+        }
+        .minus {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          border: none;
+          width: 38px;
+          height: 46px;
+          background: transparent;
+          color: #868686;
+        }
+      }
+      //
+
+      .add {
+        border: none;
+        font-weight: 400;
+        font-size: 14px;
+        text-transform: uppercase;
+        line-height: 50px;
+        background: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        text-align: center;
+        padding: 0 15px;
+        cursor: pointer;
+        display: block;
+        flex: 1;
+        letter-spacing: 1px;
+        &:hover {
+          background-color: $main-color;
+          color: #fff;
+        }
+      }
+      .wish-list {
+        font-size: 18px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        margin-left: 8px;
+        border: 1px solid hsla(0, 0%, 91%, 0.8);
+        font-weight: 400;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        i {
+          color: $main-color;
+        }
+        &:hover {
+          background-color: $main-color;
+          i {
+            color: #fff;
+          }
+        }
+      }
+    }
+    .detail-buy-now {
+      a {
+        font-size: 14px;
+        text-transform: uppercase;
+        line-height: 46px;
+        color: $main-color;
+        text-align: center;
+        margin-right: 20px;
+        padding: 0 15px;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: top;
+        font-family: Jost, sans-serif;
+        width: 100%;
+        margin: 10px 0;
+        border: 1px solid #000;
+        white-space: nowrap;
+        letter-spacing: 1px;
+        font-weight: 500;
+        &:hover {
+          background-color: $main-color;
+          color: #fff;
+        }
+      }
+    }
+
+    .detail-meta {
+      display: inline-block;
+      width: 100%;
+      text-transform: capitalize;
+      border-top: 1px solid #e5e5e5;
+      padding-top: 20px;
+      margin-top: 30px;
+      color: #868686;
+      .sku {
+        display: block;
+        margin-bottom: 20px;
+        line-height: 1.75;
+        font-size: 14px;
+        span {
+          color: #000;
+        }
+      }
+    }
+    .share {
+      display: flex;
+      color: #868686;
+      font-size: 14px;
+      .social-share {
+        i {
+          color: #000;
+          font-weight: lighter;
+          margin-left: 0.5rem;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}

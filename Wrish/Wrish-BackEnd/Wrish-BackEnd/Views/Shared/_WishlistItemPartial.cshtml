@@ -1,0 +1,17 @@
+﻿@model WishListViewModel
+
+@foreach (var item in Model.WishlistItems)
+{
+    <tr class="content-item" data-id="1061" data-key="NHL8V6">
+        <td class="remove"><a class="remove-wishlist" data-id="@item.ProductId"><i class="fas fa-times"></i></a></td>
+        <td class="image"><a asp-action="index" asp-controller="productdetail" asp-route-id="@item.ProductId"><img class="img-fluid" src="~/uploads/products/@item.PosterImage" alt=""></a></td>
+        <td class="info">
+            <div class="name"><a asp-action="index" asp-controller="productdetail" asp-route-id="@item.ProductId">@item.Name</a></div>
+            <div class="price"><span>@((item.DiscountPercent<0?item.SalePrice:item.SalePrice*(1-item.DiscountPercent/100)).ToString("#.00"))</span></div>
+        </td>
+        <td class="actions">
+            <div class="stock">In s Stock</div>
+            <div class="item-add"><a class="add-basket" asp-action="addbasket" asp-controller="product" asp-route-productId="@item.ProductId">Add to cart</a></div>
+        </td>
+    </tr>
+}

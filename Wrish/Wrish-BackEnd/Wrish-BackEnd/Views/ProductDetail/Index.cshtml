@@ -1,0 +1,368 @@
+﻿@model ProductDetailViewModel
+@inject UserManager<AppUser> usermanager
+@{
+    AppUser user = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        user = usermanager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name && x.isAdmin == false);
+    }
+}
+
+<main>
+    <section id="product-detail-slider">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="product-detail-left">
+                        <div id="slider" class="flexslider">
+                            <ul class="slides">
+                                <li>
+                                    <img class="img-fluid"
+                                         src="~/uploads/products/@Model.Product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" />
+                                </li>
+                                <li>
+                                    <img class="img-fluid"
+                                         src="~/uploads/products/@Model.Product.ProductImages.FirstOrDefault(x=>x.PosterStatus==false).Image" />
+                                </li>
+                                @foreach (var img in Model.Product.ProductImages.Where(x => x.PosterStatus == null))
+                                {
+                                    <li>
+                                        <img class="img-fluid"
+                                             src="~/uploads/products/@img.Image" />
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="carousel" class="flexslider">
+                            <ul class="slides">
+                                <li>
+                                    <img class="img-fluid"
+                                         src="~/uploads/products/@Model.Product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" />
+                                </li>
+                                <li>
+                                    <img class="img-fluid"
+                                         src="~/uploads/products/@Model.Product.ProductImages.FirstOrDefault(x=>x.PosterStatus==false).Image" />
+                                </li>
+                                @foreach (var img in Model.Product.ProductImages.Where(x => x.PosterStatus == null))
+                                {
+                                    <li>
+                                        <img class="img-fluid"
+                                             src="~/uploads/products/@img.Image" />
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Place somewhere in the <body> of your page -->
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="product-detail-right">
+                        <div class="product-etab">
+                            <a href="#">Home</a><i class="fa-solid fa-arrow-right"></i>
+                            <a href="#">Shop</a><i class="fa-solid fa-arrow-right"></i>
+                            <a href="#">@Model.Product.Brand.Name</a><i class="fa-solid fa-arrow-right"></i>
+                            @Model.Product.Name
+                        </div>
+                        <div class="detail-review">
+                            @for (int i = 0; i < ViewBag.RateCount; i++)
+                            {
+                                <i class="fa-solid fa-star"></i>
+                            }
+                            <span class="review-count">(<span>@Model.Product.ProductComments.Where(x=>x.Status==true).Count()</span> customer review)</span>
+                        </div>
+                        <h1 class="product-name">@Model.Product.Name</h1>
+                        <div class="price-single">
+                            @if (Model.Product.DiscountPrice > 0)
+                            {
+                                <div class="old-price"><span>$</span>@Model.Product.SalePrice</div>
+                                <span>$</span> @((Model.Product.SalePrice*(100- Model.Product.DiscountPrice)/100).ToString("#.00"))
+                                <span class="discount-border">-@(Model.Product.DiscountPrice.ToString("#00"))%</span>
+                            }
+
+                        </div>
+                        <div class="description">
+                            <p>
+                                @Html.Raw(Model.Product.Desc)
+                            </p>
+                        </div>
+                        <form method="post">
+
+                            <div class="detail-addtocard">
+
+                                <div class="quantity">
+                                    <button type="button" class="button minus basket-minus" data-id="@Model.Product.Id" data-quantity="minus" data-field="quantity">
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </button>
+                                    <input class="input-group-field qty" name="quantity" value="1">
+                                    <button type="button" class="button hollow plus basket-minus" data-id="@Model.Product.Id" data-quantity="plus" data-field="quantity">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <a class="add add-basket1" @*asp-action="addbasket" asp-controller="product" asp-route-productId="@Model.Product.Id"*@>ADD TO CART</a>
+                                <a class="wish-list add-wishlist" data-id="@Model.Product.Id">
+                                    <i class="fa-solid fa-heart"></i>
+                                </a>
+                            </div>
+                            <div class="detail-buy-now">
+                                <a asp-action="checkout" asp-controller="order">BUY NOW</a>
+                            </div>
+                        </form>
+                        <div class="detail-meta">
+                            <span class="sku">SKU: <span>@Model.Product.SKU</span></span>
+                            <span class="sku">Brand: <span>@Model.Product.Brand.Name</span></span>
+                            <span class="sku">Gender: <span>@Model.Product.Gender.Name</span></span>
+                            <span class="sku">
+                                Tags:
+                                @for (int i = 0; i < Model.Product.ProductTags.Count; i++)
+                                {
+                                    <span>@Model.Product.ProductTags[i].Tag.Name</span> @(i+1!= Model.Product.ProductTags.Count?",":"")
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="detail-tabmenu">
+        <div class="container">
+            <div class="d-flex align-items-start">
+                <div class="row">
+                    <div class="nav col-lg-2 flex-column"
+                         id="v-pills-tab"
+                         role="tablist"
+                         aria-orientation="vertical">
+                        <button class="nav-link active"
+                                id="v-pills-home-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#v-pills-home"
+                                type="button"
+                                role="tab"
+                                aria-controls="v-pills-home"
+                                aria-selected="true">
+                            <span>Description</span>
+                        </button>
+
+                        <button class="nav-link"
+                                id="v-pills-profile-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#v-pills-profile"
+                                type="button"
+                                role="tab"
+                                aria-controls="v-pills-profile"
+                                aria-selected="false">
+                            <span>Reviews (@Model.Product.ProductComments.Where(x => x.Status == true).Count())</span>
+                        </button>
+                    </div>
+                    <div class="tab-content col-lg-10" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active"
+                             id="v-pills-home"
+                             role="tabpanel"
+                             aria-labelledby="v-pills-home-tab">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                irure dolor in reprehenderit in voluptate velit esse cillum
+                                dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                                cupidatat non proident, sunt in culpa qui officia deserunt
+                                mollit anim id est laborum. Sed ut perspiciatis unde omnis
+                                iste natus error sit voluptatem accusantium doloremque
+                                laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                                inventore veritatis et quasi architecto beatae vitae dicta
+                                sunt explicabo.
+                            </p>
+                            <p>
+                                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
+                                odit aut fugit, sed quia consequuntur magni dolores eos qui
+                                ratione voluptatem sequi nesciunt. Neque porro quisquam est,
+                                qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
+                                velit, sed quia non numquam eius modi tempora incidunt ut
+                                labore et dolore magnam aliquam quaerat voluptatem.
+                            </p>
+                        </div>
+                        <div class="tab-pane fade"
+                             id="v-pills-profile"
+                             role="tabpanel"
+                             aria-labelledby="v-pills-profile-tab">
+                            <div class="review">
+                                <div class="comments">
+                                    <h2>Review for <span>Bering Rose Gold Steel Mesh</span></h2>
+                                    <ol>
+                                        <li class="mb-4">
+                                            Dear customers, it is very important for us that each of you has feedback, suggestions and evaluations about our products. Please share your thoughts with us.
+                                        </li>
+                                        @foreach (var item in Model.Product.ProductComments.Where(x => x.Status))
+                                        {
+                                            <li class="mb-4">
+                                                <div class="comment-content">
+                                                    <div class="profil-info">
+                                                        <img class="img-fluid"
+                                                             src="~/assets/images/settings/53444f91e698c0c7caa2dbc3bdbf93fc.png"
+                                                             alt="profile-photo" />
+                                                        <div class="name-time">
+                                                            <p><strong>@item.FullName</strong></p>
+                                                            <p>@item.CreatedAt.ToString("MMMM dd, yyyy HH:mm")</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="description">
+                                                        <p>
+                                                            @item.Text
+                                                        </p>
+                                                    </div>
+                                                    <div class="star-count">
+                                                        @for (int i = 0; i < item.Rate; i++)
+                                                        {
+                                                            <i class="fa-solid fa-star"></i>
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="review-form">
+                                <span class="reply-title"><i class="fa-solid fa-pen"></i> ADD A REVIEW</span>
+                                <form method="post" id="comment-form" asp-action="comment">
+                                    <p class="comment-notes">
+                                        Your email address will not be published. Required fields
+                                        are marked
+                                    </p>
+                                    <div class="comment-form-rating">
+                                        <span>Your Rating</span>
+
+                                        <div class="star-rating">
+                                            <input id="star-5" type="radio" name="rate" value="5" />
+                                            <label for="star-5" title="5 stars">
+                                                <i class="active fa fa-star" aria-hidden="true"></i>
+                                            </label>
+                                            <input id="star-4" type="radio" name="rate" value="4" />
+                                            <label for="star-4" title="4 stars">
+                                                <i class="active fa fa-star" aria-hidden="true"></i>
+                                            </label>
+                                            <input id="star-3" type="radio" name="rate" value="3" />
+                                            <label for="star-3" title="3 stars">
+                                                <i class="active fa fa-star" aria-hidden="true"></i>
+                                            </label>
+                                            <input id="star-2" type="radio" name="rate" value="2" />
+                                            <label for="star-2" title="2 stars">
+                                                <i class="active fa fa-star" aria-hidden="true"></i>
+                                            </label>
+                                            <input id="star-1" type="radio" name="rate" value="1" />
+                                            <label for="star-1" title="1 star">
+                                                <i class="active fa fa-star" aria-hidden="true"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="content-info-review">
+                                                @if (user != null)
+                                                {
+                                                    <div class="mb">
+                                                        <input type="text" class="form-control" id="name" disabled name="fullname" placeholder="FullName *">
+                                                    </div>
+                                                    <div class="mb">
+                                                        <input type="email" class="form-control" id="email" disabled name="email" placeholder="Email *">
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="mb">
+                                                        <input type="text" class="form-control" id="name" name="fullname" placeholder="FullName *">
+                                                    </div>
+                                                    <div class="mb">
+                                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email *">
+                                                    </div>
+                                                }
+
+                                            </div>
+                                            <button type="submit" class="submit">SUBMIT</button>
+                                            <div class="mb"></div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="comment-form-comment">
+                                                <textarea class="form-control" name="text" placeholder="Your Reviews" id="comment" style="min-height: 233px; max-height: 233px;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="productId" value="@Model.Product.Id" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section id="related-products">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h1>Related Products</h1>
+                        <div class="title-line"></div>
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="relatedModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-carousel owl-related">
+                    @foreach (var item in Model.RelatedProduct.Where(x => !x.IsDeleted))
+                    {
+                        <div class="product-body">
+                            <div class="img-body">
+                                <a href="#"><img class="img-fluid poster-img" src="~/uploads/products/@item.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="malverick"></a>
+                                <a asp-action="index" asp-controller="productdetail" asp-route-id="@item.Id"><img class="img-fluid hover-img" src="~/uploads/products/@item.ProductImages.FirstOrDefault(x=>x.PosterStatus==false).Image" alt="malveric-hover"></a>
+                            </div>
+                            <span class="discount-percent">-17%</span>
+                            <div class="product-button animate__animated">
+                                <a href="#"><i class="fa-solid fa-heart product-wishlist"></i></a>
+                                <a href="#" class="lupa single-lupa-btn" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-magnifying-glass"></i></a>
+                            </div>
+                            <div class="product-content">
+                                <a class="product-title" href="#">@item.Name</a>
+                                <div class="price">
+                                    <span class="amount">
+                                        @if (item.DiscountPrice > 0)
+                                        {
+                                            <bdi>$<span class="old-price">@((item.SalePrice*(1-item.DiscountPrice/100)).ToString("#.00"))</span></bdi>
+                                            <span class="dollar-symbol">$</span>
+                                            @Html.Raw(item.SalePrice)
+                                        }
+                                        else
+                                        {
+                                            <span class="dollar-symbol">$</span>
+                                            @Html.Raw(item.SalePrice);
+                                        }
+
+                                    </span>
+                                </div>
+                                <div class="btn-shop">
+                                    <a class="add-to-card add-basket" asp-action="addbasket" asp-controller="product" asp-route-productId="@item.Id"><span>ADD TO CART</span><i class="fa-solid fa-bag-shopping"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts{
+    <script src="~/assets/vendor/customflex.js"></script>
+    <script src="~/assets/js/plmins.js"></script>
+    <script src="~/assets/vendor/jquery.flexslider-min.js"></script>
+    <script src="~/assets/vendor/jquery.flexslider.js"></script>
+}

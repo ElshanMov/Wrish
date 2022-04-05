@@ -1,0 +1,36 @@
+@import "./variable";
+#instagram {
+  .owl-instagram {
+    .instagram-image {
+      position: relative;
+      overflow: hidden !important;
+      transition: 0.3s all ease;
+      img {
+        transition: 0.3s all ease;
+      }
+      .hover-instagram {
+        position: absolute;
+        color: #fff;
+        top: 0;
+        left: 0;
+        right: 0;
+        font-size: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.685);
+        opacity: 0;
+        transition: 0.3s all ease;
+      }
+      &:hover {
+        img {
+          transform: scale(1.1);
+        }
+        .hover-instagram {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+﻿@model Slider
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1>Slider Edit</h1>
+            <form asp-action="edit" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label asp-for="Title1" class="form-label">Title1</label>
+                    <input asp-for="Title1" class="form-control">
+                    <span class="text-danger" asp-validation-for="Title1"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Title2" class="form-label">Title2</label>
+                    <input asp-for="Title2" class="form-control">
+                    <span class="text-danger" asp-validation-for="Title2"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="BtnText" class="form-label">Button Text</label>
+                    <input asp-for="BtnText" class="form-control">
+                    <span class="text-danger" asp-validation-for="BtnText"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Desc" class="form-label">Description</label>
+                    <input asp-for="Desc" class="form-control">
+                    <span class="text-danger" asp-validation-for="Desc"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ReturnUrl" class="form-label">Return Url</label>
+                    <input asp-for="ReturnUrl" class="form-control">
+                    <span class="text-danger" asp-validation-for="ReturnUrl"></span>
+                </div>               
+                <div class="mb-3">
+                    <label asp-for="Image" class="form-label">Image</label>
+                    <input class="form-control img-upload-input" asp-for="ImageFile">
+                    <span class="text-danger d-block" asp-validation-for="ImageFile"></span>
+
+                    <div class="img-box" style=" margin: 10px; display: flex; justify-content: center; align-items: center;">
+                        <img src="~/uploads/sliders/@Model.Image" style="width:130px;height:130px;object-fit:cover;" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

@@ -1,0 +1,65 @@
+﻿@model BasketViewModel
+
+    <div class="top-total-cart">
+        Cart (@(Model?.BasketItems.Count==null?0: Model.BasketItems.Count))
+    </div>
+    @if (Model?.BasketItems != null && Model.BasketItems.Count != 0)
+    {
+        <ul class="cart-list" id="cart-product">
+            @foreach (var item in Model.BasketItems)
+            {
+                <li class="mini-cart-list">
+                    <a class="remove remove-basket" data-id="@item.ProductId"><i class="fa-solid fa-x"></i></a>
+                    <a class="basket-item-img" href="#">
+                        <div class="img-box">
+                            <img class="img-fluid" src="~/uploads/products/@item.PosterImage" alt="shock">
+                        </div>
+                    </a>
+                    <a class="basket-item-name" href="#">@item.Name</a>
+                    <div class="quantity">Qty: @item.Count</div>
+                    <span class="price">$@item.Price.ToString("#.00")</span>
+                </li>
+            }
+        </ul>
+        <div class="contekt">
+            <div class="total-cart">
+                <div class="title-total">
+                    Total:
+                </div>
+                <span class="total-price">$@((Model?.TotalAmount==null?0:Model.TotalAmount).ToString("#.00"))</span>
+            </div>
+            <div class="free-ship">
+                <div class="title-ship">You've got free shipping!</div>
+                <div class="total-percent"><div class="percent"></div><i class="fa-solid fa-truck"></i></div>
+            </div>
+            <div class="buttons">
+                <a class="checkout-btn" asp-controller="order" asp-action="checkout">CHECK OUT</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="empty">
+            <i class="fa-solid fa-square-xmark shop-x"></i>
+            <span>No products in the cart.</span>
+            <a asp-action="shop" asp-controller="product">GO TO SHOP<i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="contekt d-none">
+            <div class="total-cart">
+                <div class="title-total">
+                    Total:
+                </div>
+                <span class="total-price">$@Model?.TotalAmount</span>
+            </div>
+            <div class="free-ship">
+                <div class="title-ship">You've got free shipping!</div>
+                <div class="total-percent"><div class="percent"></div><i class="fa-solid fa-truck"></i></div>
+            </div>
+            <div class="buttons">
+                <a class="viewcart-btn" href="basket-item.html">VIEW CART</a>
+                <a class="checkout-btn" asp-controller="product" asp-action="checkout">CHECK OUT</a>
+            </div>
+        </div>
+    }
+
+

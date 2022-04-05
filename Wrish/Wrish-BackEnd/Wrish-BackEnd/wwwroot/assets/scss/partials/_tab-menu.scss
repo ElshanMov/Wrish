@@ -1,0 +1,177 @@
+@import "./variable";
+
+#detail-tabmenu {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  border-top: 1px solid #e5e5e5;
+
+  .container {
+    .nav {
+      margin-bottom: 2rem;
+      .active {
+        span {
+          background-color: transparent !important;
+          border-bottom: 1px solid $main-color;
+        }
+
+        border-right: 3px solid $main-color;
+        @media (max-width: 991px) {
+          border-right: none;
+        }
+      }
+
+      button {
+        color: $main-color;
+        background-color: transparent !important;
+        padding: 0;
+        border: none;
+        padding: 19px 0px !important;
+        font-size: 20px;
+      }
+    }
+    .tab-content {
+      padding-left: 40px;
+      @media (max-width: 991px) {
+        padding-left: 10px;
+      }
+      .tab-pane {
+        padding: 1rem 2rem;
+        @media (max-width: 991px) {
+          padding: 1rem 0.5rem;
+        }
+        border-left: 3px solid #bbbaba;
+
+        p {
+          margin: 0.5rem 0rem;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 1.75;
+          color: #868686;
+          text-align: left;
+          line-height: 2em;
+        }
+      }
+      .review {
+        margin-bottom: 4rem;
+        .comments {
+          h2 {
+            font-size: 25px;
+            margin-bottom: 30px;
+            color: $main-color;
+            font-weight: 400;
+          }
+          ol {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            li {
+              border: 1px solid #d9d9d9;
+              padding: 30px;
+              border-radius: 8px;
+
+              .comment-content {
+                position: relative;
+                .profil-info {
+                  img {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                  }
+                  .name-time {
+                    margin-left: 0.5rem;
+                    p {
+                      strong {
+                        color: $main-color;
+                      }
+                      margin-top: 0;
+                      margin-bottom: 0;
+                    }
+                  }
+
+                  display: flex;
+                }
+                .star-count {
+                  color: #ff9e21;
+                  font-size: 12px;
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+      .review-form {
+        .reply-title {
+          color: #000;
+          font-size: 13px;
+          margin-bottom: 40px;
+          display: inline-block;
+          border: 2px solid #000;
+          line-height: 52px;
+          padding: 0 35px;
+          text-transform: uppercase;
+          font-weight: 500;
+        }
+        form {
+          .comment-form-rating {
+            .star {
+              background: none;
+              border: none;
+              font-size: 1.5em;
+              padding: 0 0.15em;
+              cursor: pointer;
+              // color: #ff9e21;
+            }
+
+            .star.is-active {
+              color: #f9dc5c;
+            }
+
+            .screen-reader {
+              border: 0;
+              clip: rect(0 0 0 0);
+              height: 1px;
+              margin: -1px;
+              overflow: hidden;
+              padding: 0;
+              position: absolute;
+              white-space: nowrap;
+              width: 1px;
+            }
+          }
+          .row {
+            flex-wrap: wrap;
+            .form-control {
+              padding: 14px 20px;
+              box-shadow: none;
+            }
+            .mb {
+              margin-bottom: 25px;
+              margin-top: 10px;
+            }
+            .submit {
+              background: #fff;
+              font-size: 12px;
+              font-weight: 400;
+              padding: 0 50px;
+              height: 60px;
+              color: #000;
+              cursor: pointer;
+              text-transform: uppercase;
+              width: 100%;
+              font-family: Jost, sans-serif;
+              letter-spacing: 0.1em;
+              border: 1px solid #000;
+              &:hover {
+                background-color: $main-color;
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

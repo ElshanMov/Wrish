@@ -1,0 +1,169 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Edit";
+    int count = 0;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1 class="mb-4">Order Edit</h1>
+        </div>
+        <div class="col-lg-12 mx-auto d-flex justify-content-center">
+            <div class="card" style="width: 100%;">
+                <h4 class="text-center text-white pt-2 bg-dark">Customer Information</h4>
+                <div class="card-body">
+                    <h5 class="card-title">FullName:  @Model.FullName</h5>
+                    <h5 class="card-title">Email:  @Model.Email</h5>
+                    <h5 class="card-title">UserName:  @(Model?.AppUser?.UserName==null?"Guest":Model.AppUser.UserName)</h5>
+                    <h5 class="card-title">Country:  @Model.Country</h5>
+                    <h5 class="card-title">City:  @Model.City</h5>
+                    <h5 class="card-title">Adress:  @Model.Address</h5>
+                    <h5 class="card-title">Phone:  @Model.Phone</h5>
+                    <h5 class="card-title">ZipCode:  @Model.Postcode</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 text-center">
+            <h4 class="pt-2 pb-2 bg-dark text-white" style="margin:0px">Products Information</h4>
+        </div>
+        <div class="col-lg-12 table-responsive">
+
+            <table class="table table-striped">
+                <thead class="table-striped">
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">CreatedAt</th>
+                        <th scope="col">SalePrice</th>
+                        <th scope="col">Count</th>
+                        <th scope="col">Poster</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        count++;
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.Product.Name</td>
+                            <td>@item.CreatedAt</td>
+                            <td>@((item.DiscountPrice>0?item.SalePrice*(1-item.DiscountPrice/100):item.SalePrice).ToString("0.00"))</td>
+                            <td>@item.Count</td>
+                            <td>
+                                <div class="img-box" style="width:80px;height:90px">
+                                    <img class="img-fluid" src="~/uploads/products/@(item.Product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image)" />
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-12 text-center">
+            <h4 class="pt-2 pb-2 bg-dark text-white" style="margin:0px">Complete</h4>
+        </div>
+
+
+        <div class="row" style="width: -webkit-fill-available;text-align: center;">
+            <div class="col-lg-3">
+                <form method="post" asp-action="Pending">
+
+                    <input type="hidden" asp-for="Status" />
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="AppUser" type="hidden" />
+                    <input asp-for="AppUserId" type="hidden" />
+
+                    <button type="submit" class="btn btn-dark my-3" style="pointer-events:@(Model.Status==OrderStatus.Pending?"none":"visible")">Pending</button>
+
+                </form>
+            </div>
+            <div class="col-lg-3">
+
+
+                <input type="hidden" asp-for="Status" />
+                <input asp-for="Id" type="hidden" />
+                <input asp-for="AppUser" type="hidden" />
+                <input asp-for="AppUserId" type="hidden" />
+
+
+                <button type="submit" data-toggle="modal" data-target="#staticBackdrop" class="btn btn-success my-3">Accepted</button>
+                <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="background-color:#f2f2f2">
+                            <div class="modal-header">
+                                <h5 class="modal-title" style="color: #858796;" id="staticBackdropLabel">
+                                    Delivery Status
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form method="post" asp-action="OnProcessing" enctype="multipart/form-data">
+                                            <input type="hidden" asp-for="Id">
+                                            <button type="submit" style="pointer-events:@(Model.DeliveryStatus==OrderDeliveryStatus.OnProcessing?" none":"visible")" class="btn btn-warning btn-icon-split my-1 text-center"><span class="icon text-white-50"><i class="fas fa-arrow-right"></i></span><span style="width:130px" class="text">On Processing</span></button>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <form method="post" asp-action="OnDepot" enctype="multipart/form-data">
+                                            <input type="hidden" asp-for="Id">
+                                            <button type="submit" style="pointer-events:@(Model.DeliveryStatus==OrderDeliveryStatus.OnDepot?" none":"visible")" class="btn btn-primary btn-icon-split my-1 text-center"><span class="icon text-white-50"><i class="fas fa-arrow-right"></i></span><span style="width:130px" class="text">On Depot</span></button>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <form method="post" asp-action="OnCouirer" enctype="multipart/form-data">
+                                            <input type="hidden" asp-for="Id">
+                                            <button type="submit" style="pointer-events:@(Model.DeliveryStatus==OrderDeliveryStatus.OnCourier?" none":"visible")" class="btn btn-info btn-icon-split my-1 text-center"><span class="icon text-white-50"><i class="fas fa-arrow-right"></i></span><span style="width:130px" class="text">On Couirer</span></button>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <form method="post" asp-action="Delivered" enctype="multipart/form-data">
+                                            <input type="hidden" asp-for="Id">
+                                            <button type="submit" style="pointer-events:@(Model.DeliveryStatus==OrderDeliveryStatus.Delivered?" none":"visible")" class="btn btn-success btn-icon-split my-1 text-center"><span class="icon text-white-50"><i class="fas fa-arrow-right"></i></span><span style="width:130px" class="text">Delivered</span></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="col-lg-3">
+                <form method="post" asp-action="Canceled">
+
+                    <input type="hidden" asp-for="Status" />
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="AppUser" type="hidden" />
+                    <input asp-for="AppUserId" type="hidden" />
+
+
+                    <button type="submit" class="btn btn-warning my-3" style="pointer-events:@(Model.Status==OrderStatus.Canceled?"none":"visible")">Canceled</button>
+
+
+                </form>
+
+            </div>
+
+
+
+            <div class="col-lg-3">
+                <a asp-action="Rejected" asp-controller="order" asp-route-id="@Model.Id" class="btn btn-danger my-3" style="pointer-events:@(Model.Status==OrderStatus.Rejected?"none":"visible")">Rejected</a>
+            </div>
+
+
+        </div>
+    </div>
+
+
+

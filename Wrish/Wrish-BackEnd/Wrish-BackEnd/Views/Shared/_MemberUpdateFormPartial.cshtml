@@ -1,0 +1,44 @@
+﻿@model MemberUpdateViewModel
+<div class="myaccount-content">
+    <h3>Account Details</h3>
+    <div class="account-details-form">
+        <form method="post" asp-action="profile" asp-controller="account">
+            <div class="row">
+                <div class="col-lg-6 col-12 mb-4">
+                    <input asp-for="FullName" id="first-name" placeholder="Full Name">
+                    <span class="text-danger" asp-validation-for="FullName"></span>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <input asp-for="UserName" placeholder="User Name">
+                    <span class="text-danger" asp-validation-for="UserName"></span>
+                </div>
+                <div class="col-lg-12 mb-4">
+                    <input asp-for="Email" placeholder="Email">
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+                <div class="col-lg-12 mb-4">
+                    <h4>Password change</h4>
+                </div>
+                <div class="col-lg-12 mb-4">
+                    <input asp-for="CurrentPassword" placeholder="Current Password">
+                    <span class="text-danger" asp-validation-for="CurrentPassword"></span>
+
+                </div>
+                <div class="col-lg-6 col-12 mb-4">
+                    <input asp-for="Password" placeholder="New Password">
+                    <span class="text-danger" asp-validation-for="Password"></span>
+
+                </div>
+                <div class="col-lg-6 col-12 mb-4">
+                    <input asp-for="RepeatPassword" placeholder="Confirm Password">
+                    <span class="text-danger" asp-validation-for="RepeatPassword"></span>
+
+                </div>
+                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                <div class="col-12">
+                    <button type="submit" class="save-chng">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

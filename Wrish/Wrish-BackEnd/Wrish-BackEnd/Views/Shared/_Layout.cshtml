@@ -1,0 +1,398 @@
+﻿@inject LayoutService service
+@inject UserManager<AppUser> UserManager;
+@{
+
+    AppUser user = User.Identity.IsAuthenticated ?
+        UserManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name && !x.isAdmin) : null;
+
+
+    List < Setting > settings = await service.GetSettings();
+    BasketViewModel basket = await service.GetBasketItems();
+    List<Product> products = await service.GetProducts();
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wrish</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/images/instagram-img/4.png">
+    <!-- Fontfamily -->
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,500&display=swap"
+          rel="stylesheet" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <!-- Owl-carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Animate-slide -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- Flex-slider -->
+    <link rel="stylesheet" href="~/assets/css/flexslider.css" />
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+          crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <!-- Css -->
+    <link rel="stylesheet" href="~/assets/css/style.css" />
+    <link rel="stylesheet" href="~/assets/css/plugin.css">
+    <!-- Toastr Css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <section id="topbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                        <div class="topbar-left">
+                            <ul>
+                                <li><a asp-action="trackorder" asp-controller="order">Order Tracking</a></li>
+                                <li><a asp-action="faq" asp-controller="pages">FAQs</a></li>
+                                <li><a asp-action="contact" asp-controller="pages">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                        <div class="topbar-right">
+                            <ul>
+                                <li>
+                                    <a asp-action="contact" asp-controller="pages">
+                                        <i class="bi bi-geo-alt"></i> Store
+                                        Location
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="mailto:support@wrish.com">
+                                        <i class="fa-regular fa-envelope"></i>
+                                        @settings.FirstOrDefault(x => x.Key == "Support-mail").Value
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="navbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-7 col-lg-7 col-md-12 navbar-left">
+                        <div class="navbar-logo">
+                            <a asp-action="index" asp-controller="home">
+                                <img class="img-fluid"
+                                     src="~/uploads/settings/@(settings.FirstOrDefault(x=>x.Key=="Wrish-Logo")?.Value)"
+                                     alt="navbar-logo" />
+                            </a>
+                        </div>
+                        <div class="navbar-content">
+                            <ul>
+                                <li>
+                                    <a asp-action="index" asp-controller="home">Home</a>
+                                </li>
+                                <li>
+                                    <a asp-action="shop" asp-controller="product">Shop</a>
+                                </li>
+                                <li>
+                                    <a asp-action="aboutus" asp-controller="pages">
+                                        About
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="contact" asp-controller="pages">
+                                        Contact
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="faq" asp-controller="pages">FAQs</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-5 col-md-12 navbar-right">
+                        <div class="header-page">
+                            <div class="login-header">
+                                @if (user!=null && !user.isAdmin)
+                                {
+                                    <a asp-action="profile" asp-controller="account" class="login">@User.Identity.Name</a>
+                                    <a asp-action="logout" asp-controller="account">LOGOUT</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="login" asp-controller="account" class="login">LOGIN</a>
+                                    <a asp-action="register" asp-controller="account">REGISTER</a>
+                                }
+
+                            </div>
+                            <div class="header-search">
+                                <a href="#" class="search-icon"><i class="bi bi-search"></i></a>
+                            </div>
+                            <div class="header-wishlist">
+                                <a asp-action="wishlist" asp-controller="product"><i class="bi bi-heart"></i></a>
+                            </div>
+                            <a href="#">
+                                <div class="shopping-cart">
+                                    <i class="bi bi-bag basket-icon"></i>
+                                    @*<span class="cart-count">@(basket?.BasketItems.Count==null?0: basket.BasketItems.Count)</span>*@
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="navbar-mobile">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
+                        <div class="navbar-bars">
+                            <a href="#"><i class="fa-solid fa-bars bars-icon"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
+                        <div class="nav-mobile-logo">
+                            <a asp-action="index" asp-controller="home">
+                                <img class="img-fluid"
+                                     src="~/uploads/settings/@(settings.FirstOrDefault(x=>x.Key=="Wrish-Logo")?.Value)"
+                                     alt="mobile-logo" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3 mobile-right">
+                        <a href="#">
+                            <div class="shopping-cart">
+                                <i class="bi bi-bag basket-icon"></i>
+                                @*<span class="cart-count">2</span>*@
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="mobile-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col">
+                        <div class="mobile-fixed-content">
+                            <a asp-action="shop" asp-controller="product"><i class="fa-solid fa-store"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col">
+                        <div class="mobile-fixed-content">
+                            <a asp-action="login" asp-controller="account"><i class="fa-solid fa-user"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col">
+                        <div class="mobile-fixed-content">
+                            <a href="#" class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col">
+                        <div class="mobile-fixed-content">
+                            <a asp-action="wishlist" asp-controller="product"><i class="fa-solid fa-heart"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="sidebar">
+            <div class="sidebar-header">
+                <span class="close-sidebar">Close<i class="fas fa-times"></i></span>
+            </div>
+            <div class="sidebar-content">
+                <ul>
+                    <li><a asp-action="index" asp-controller="home">HOME</a></li>
+                    <li><a asp-action="shop" asp-controller="product">SHOP</a></li>
+                    <li><a asp-action="aboutus" asp-controller="pages">ABOUT</a></li>
+                    <li><a asp-action="contact" asp-controller="pages">CONTACT</a></li>
+                    <li><a asp-action="faq" asp-controller="pages">FAQs</a></li>
+                </ul>
+            </div>
+        </section>
+        <section id="basketbar">
+            <div class="basketbar-header">
+                <span class="close-basketbar basket-icon">Close<i class="fas fa-times"></i></span>
+            </div>
+            <div class="div" style="display:contents">
+                @await Html.PartialAsync("_BasketItemPartial", basket)
+            </div>
+        </section>
+
+    </header>
+    @RenderBody()
+    @if (TempData["Error"] != null)
+    {
+        <input type="hidden" id="toaster-error" value="@TempData["Error"]" />
+    }
+    @if (TempData["Success"] != null)
+    {
+        <input type="hidden" id="toaster-success" value="@TempData["Success"]" />
+    }
+    <footer>
+        <div id="search_overlay_content" class="search-overlay">
+            <div class="container">
+                <div class="search-top">
+                    <h2>what are you looking for?</h2>
+                    <div class="close-search search-icon">
+                        close<i class="fas fa-times"></i>
+                    </div>
+                </div>
+
+                <form method="post">
+                    <div class="search-box">
+                        <button id="searchsubmit" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <input type="text" value="" name="s" id="s" class="input-s" placeholder="Search...">
+                        <div class="result-search-product-content">
+                            <ul class="result-search-products">
+                                @await Html.PartialAsync("_SearchPartial", products)                               
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <section id="wrish-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                        <div class="footer-adress">
+                            <div class="footer-logo">
+                                <img class="img-fluid" src="~/uploads/settings/@(settings.FirstOrDefault(x=>x.Key=="Wrish-Logo")?.Value)" alt="footer-logo">
+                            </div>
+                            <p class="adress">@settings.FirstOrDefault(x=>x.Key=="Footer-adress").Value</p>
+                            <p class="email">@settings.FirstOrDefault(x => x.Key == "Footer-mail").Value</p>
+                            <p class="phone">@settings.FirstOrDefault(x => x.Key == "Footer-phone").Value</p>
+                            <div class="social-icon">
+                                <a href="https://twitter.com"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="https://nba.com"><i class="fa-brands fa-dribbble"></i></a>
+                                <a href="https://wordpress.com"><i class="fa-brands fa-behance"></i></a>
+                                <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                        <div class="footer-content">
+                            <h2>INFORMATION</h2>
+                            <ul>
+                                <li><a asp-action="faq" asp-controller="pages">Shipping</a></li>
+                                <li><a asp-action="faq" asp-controller="pages">Warranty & Authenticity</a></li>
+                                <li><a asp-action="faq" asp-controller="pages">Terms & Conditions</a></li>
+                                <li><a asp-action="faq" asp-controller="pages">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                        <div class="footer-content">
+                            <h2>Help</h2>
+                            <ul>
+                                <li><a asp-action="contact" asp-controller="pages">Contact Us</a></li>
+                                <li><a asp-action="aboutus" asp-controller="pages">About Us</a></li>
+                                <li><a href="#">Reviews</a></li>
+                                <li><a asp-action="faq" asp-controller="pages">Terms of Service</a></li>
+                                <li><a asp-action="faq" asp-controller="pages">Refund policy Contact</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col">
+                        <div class="footer-content">
+                            <h2>SERVICES</h2>
+                            <ul>
+                                <li><a href="#">Sale</a></li>
+                                <li><a href="#">Quick Ship</a></li>
+                                <li><a href="#">New Design</a></li>
+                                <li><a href="#">Protection Plan</a></li>
+                                <li><a href="#">Gift Cards</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                        <div class="copyright">
+                            @settings.FirstOrDefault(x => x.Key == "Copyright").Value
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="copyright-link">
+                            <a asp-action="faq" asp-controller="pages">Privacy</a>
+                            <a asp-action="faq" asp-controller="pages">Terms</a>
+                            <a asp-action="faq" asp-controller="pages">Promo T&Cs Apply</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                        <div class="copyright-img">
+                            <img class="img-fluid" src="~/uploads/settings/@settings.FirstOrDefault(x=>x.Key=="Payment")?.Value" alt="payment">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Owl-Carousel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- Vendor -->
+    <script src="~/assets/vendor/plugin.js"></script>
+    <!-- MainJS -->
+    <script src="~/assets/js/main.js"></script>
+    <!--App Js-->
+    <script src="~/assets/js/app.js"></script>
+    <!--Toastr Js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        $(document).ready(function () {
+            if ($("#toaster-error").length) {
+                toastr["error"]($("#toaster-error").val())
+            }
+            if ($("#toaster-success").length) {
+                toastr["success"]($("#toaster-success").val())
+            }
+        })
+    </script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

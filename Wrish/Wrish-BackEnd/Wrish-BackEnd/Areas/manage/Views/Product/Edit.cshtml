@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+@model Product
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <h1>Edit Product</h1>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form method="post" asp-action="edit" enctype="multipart/form-data">
+                            <div class="form-row">
+                                <div class="form-group col-lg-6">
+                                    <div class="mb-3">
+                                        <label asp-for="Name" class="form-label">Name</label>
+                                        <input asp-for="Name" class="form-control">
+                                        <span class="text-danger" asp-validation-for="Name"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <div class="mb-3">
+                                        <label asp-for="SKU" class="form-label">SKU</label>
+                                        <input asp-for="SKU" class="form-control">
+                                        <span class="text-danger" asp-validation-for="SKU"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-lg-4">
+                                    <div class="mb-3">
+                                        <label asp-for="SalePrice" class="form-label">SalePrice</label>
+                                        <input asp-for="SalePrice" class="form-control">
+                                        <span class="text-danger" asp-validation-for="SalePrice"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <div class="mb-3">
+                                        <label asp-for="CostPrice" class="form-label">CostPrice</label>
+                                        <input asp-for="CostPrice" class="form-control">
+                                        <span class="text-danger" asp-validation-for="CostPrice"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <div class="mb-3">
+                                        <label asp-for="DiscountPrice" class="form-label">Discount Percent</label>
+                                        <input asp-for="DiscountPrice" class="form-control">
+                                        <span class="text-danger" asp-validation-for="DiscountPrice"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="BrandId">Product Brand</label>
+                                    <select class="form-control" asp-for="BrandId" asp-items="@new SelectList((List<Brand>)ViewBag.Brand,nameof(Brand.Id),nameof(Brand.Name))">
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="BrandId"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="GenderId">Product Gender</label>
+                                    <select class="form-control" asp-for="GenderId" asp-items="@new SelectList((List<Gender>)ViewBag.Gender,nameof(Gender.Id),nameof(Gender.Name))">
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="GenderId"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ProductSizesIds">Product Size</label>
+                                    <select class="form-control" asp-for="ProductSizesIds" asp-items="@new SelectList((List<Size>)ViewBag.Size,nameof(Size.Id),nameof(Size.Name))">
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="ProductSizesIds"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ProductTagIds">Product Tag</label>
+                                    <select class="form-control" asp-for="ProductTagIds" asp-items="@new SelectList((List<Tag>)ViewBag.Tag,nameof(Tag.Id),nameof(Tag.Name))">
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="ProductTagIds"></span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="mb-3">
+                                <label asp-for="Desc" class="form-label">Desc</label>
+                                <textarea class="form-control" asp-for="Desc" rows="6" id="editor"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="PosterFile" class="form-label">PosterImageFile</label>
+                                <input asp-for="PosterFile" class="form-control img-poster-input">
+                                <span class="text-danger" asp-validation-for="PosterFile"></span>
+
+                                <div class="poster-img-change" style=" margin: 10px; display: flex; justify-content: center; align-items: center;">
+                                    <img src="~/uploads/products/@Model.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" style="width:180px;height:180px;object-fit:cover;" />
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="HoverPosterFile" class="form-label">HoverImageFile</label>
+                                <input asp-for="HoverPosterFile" class="form-control img-hover-input">
+                                <span class="text-danger" asp-validation-for="HoverPosterFile"></span>
+                                <div class="hover-img-change" style=" margin: 10px; display: flex; justify-content: center; align-items: center;">
+                                    <img src="~/uploads/products/@Model.ProductImages.FirstOrDefault(x=>x.PosterStatus==false).Image" style="width:180px;height:180px;object-fit:cover;" />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ImageFiles" class="form-label">ProductImagesFile</label>
+                                <input asp-for="ImageFiles" class="form-control" id="img-upload-input" multiple>
+                                <span class="text-danger" asp-validation-for="ImageFiles"></span>
+                                <div id="product-images" class="product-images d-flex justify-content-center" style="margin:30px 0px">
+                                    @foreach (var item in Model.ProductImages.Where(x => x.PosterStatus == null))
+                                    {
+                                        <div class="img-box" style="display: inline-block; position: relative;margin:0px 8px">
+                                            <input type="hidden" name="ProductImageIds[]" value="@item.Id" />
+                                            <img style="width:180px;height:180px;object-fit:cover;" src="~/uploads/products/@item.Image" />
+                                            <span class="remove-img-box" style="position: absolute; top: 0px; right: 1px; cursor:pointer">
+                                                <i class="fas fa-times text-danger" style="font-size:20px"></i>
+                                            </span>
+                                        </div>
+                                    }
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="form-group col-md-12">
+                                <label asp-for="ProductColorsIds">Product Color</label>
+                                <select class="form-control" asp-for="ProductColorsIds" asp-items="@new SelectList((List<Color>)ViewBag.Color,nameof(Color.Id),nameof(Color.Name))">
+                                </select>
+                                <span class="text-danger" asp-validation-for="ProductColorsIds"></span>
+                            </div>
+
+
+
+                            <button type="submit" class="btn btn-primary my-3">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js"></script>
+    <script src="~/manage/js/editor.js"></script>
+}
+

@@ -1,0 +1,46 @@
+﻿@model Product
+
+<div class="modal-header">
+    <img class="img-fluid" src="~/uploads/products/@Model.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="">
+</div>
+<div class="modal-body">
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="detail-review">
+        @for (int i = 0; i < ViewBag.RateCount; i++)
+        {
+            <i class="fa-solid fa-star"></i>
+        }
+        <span class="review-count">(<span>@Model.ProductComments.Where(x => x.Status == true).Count()</span> customer review)</span>
+    </div>
+    <h1 class="product-name">@Model.Name</h1>
+    <div class="price-single">
+        @if (Model.DiscountPrice > 0)
+        {
+            <div class="old-price"><span>$</span>@Model.SalePrice</div>
+            <span>$</span>@((Model.SalePrice*(100- Model.DiscountPrice)/100).ToString("#.00"))
+            <span class="discount-border">-@(Model.DiscountPrice)%</span>
+        }
+        else
+        {
+            <div class="price"><span>$</span>@Model.SalePrice</div>
+        }
+
+    </div>
+    <div class="description">
+        <p>
+            @Html.Raw(Model.Desc)
+        </p>
+    </div>
+    <form method="post">
+
+        <div class="detail-addtocard">            
+            <a class="add add-basket"  asp-action="addbasket" asp-controller="product" asp-route-productId="@Model.Id">ADD TO CART</a>
+            <a class="wish-list add-wishlist" data-id="@Model.Id">
+                <i class="fa-solid fa-heart"></i>
+            </a>
+        </div>
+        <div class="detail-buy-now">
+            <a asp-action="checkout" asp-controller="order">BUY NOW</a>
+        </div>
+    </form>
+</div>

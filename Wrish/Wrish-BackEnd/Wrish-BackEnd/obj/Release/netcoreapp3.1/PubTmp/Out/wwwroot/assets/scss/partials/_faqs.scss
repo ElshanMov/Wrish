@@ -1,0 +1,41 @@
+@import "./variable";
+
+#faqs {
+  padding: 5rem 0;
+  .container {
+    .row {
+      .faqs-page-title {
+        text-align: center;
+        margin-bottom: 80px;
+        h1 {
+          font-size: 50px;
+          font-weight: 400;
+          line-height: 1;
+          color: #000;
+        }
+      }
+      .question-content {
+        text-align: left;
+        margin-bottom: 70px;
+        .question-title {
+          font-size: 30px;
+          line-height: 1;
+          font-weight: 400;
+          color: #000;
+          margin-bottom: 26px;
+        }
+        .question {
+          color: #656565;
+          font-size: 15px;
+          font-weight: 700;
+          line-height: 1.75;
+        }
+        .answer {
+          color: $font-color;
+          font-size: 15px;
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
+}

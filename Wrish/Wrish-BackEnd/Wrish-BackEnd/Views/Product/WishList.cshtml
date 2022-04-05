@@ -1,0 +1,27 @@
+﻿@model WishListViewModel
+@{
+    ViewData["Title"] = "WishList";
+}
+
+
+<main>
+    <section id="back-image"></section>
+    <section id="wishlist">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="main-content">
+                        <table class="content-items">
+                            <tbody>
+                                @await Html.PartialAsync("_WishlistItemPartial",Model)
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+

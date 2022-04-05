@@ -1,0 +1,105 @@
+﻿@model AboutUsViewModel
+@{
+    ViewData["Title"] = "AboutUs";
+}
+
+<main>
+    <section id="about-intro">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 d-flex align-items-center">
+                    <div class="intro-text">
+                        <div class="text-title">
+                            <h2>@Model.Settings.FirstOrDefault(x => x.Key == "About-intro-title1").Value <br> @Model.Settings.FirstOrDefault(x => x.Key == "About-intro-title2").Value</h2>
+                        </div>
+                        <div class="text-editor">
+                            <p>@Model.Settings.FirstOrDefault(x => x.Key == "About-intro-text").Value</p>
+                        </div>
+                        <div class="text-button">
+                            <a asp-controller="product" asp-action="@Model.Settings.FirstOrDefault(x => x.Key == "About-intro-btnurl").Value">@Model.Settings.FirstOrDefault(x => x.Key == "About-intro-btntext").Value</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="intro-image animate__animated">
+                        <img class="img-fluid" src="~/uploads/settings/@Model.Settings.FirstOrDefault(x => x.Key == "About-intro-img").Value" alt="1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="nature-photo">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="nature-image">
+                        <img class="img-fluid" src="~/uploads/settings/@Model.Settings.FirstOrDefault(x => x.Key == "About-us-img1").Value" alt="4-1">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="nature-image">
+                        <img class="img-fluid" src="~/uploads/settings/@Model.Settings.FirstOrDefault(x => x.Key == "About-us-img2").Value" alt="2-1">
+                    </div>
+                </div><div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="nature-image">
+                        <img class="img-fluid" src="~/uploads/settings/@Model.Settings.FirstOrDefault(x => x.Key == "About-us-img3").Value" alt="4-1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="feedback-slider">
+        <div class="container">
+            <div class="row">
+                <div class="owl-carousel owl-feedback">
+                    @foreach (var item in Model.Testimonials)
+                    {
+                        <div class="col-lg-8 col-md-12 col-sm-12 mx-auto">
+                            <div class="item">
+                                <div class="testimonial-item">
+                                    <i class="fa-solid fa-quote-left quote"></i>
+                                    <div class="star">
+                                        @for (int i = 0; i < item.ReviewCount; i++)
+                                        {
+                                            <i class="fa-solid fa-star"></i>
+
+                                        }
+                                    </div>
+                                    <div class="customer-post">
+                                        <p>@item.Desc </p>
+                                    </div>
+                                </div>
+                                <div class="testimonial-image">
+                                    <div class="thumbnail">
+                                        <img class="img-fluid" src="~/uploads/testimonials/@item.Image" alt="testimonials_img">
+                                    </div>
+                                    <div class="testimonial-name">
+                                        <h2>@item.FullName</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                    
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <section id="instagram">
+        <div class="owl-carousel owl-instagram">
+            @foreach (var item in Model.InstaImages)
+            {
+                <div class="instagram-image">
+                    <img src="~/uploads/instaimages/@item.Image" alt="insta_image">
+                    <div class="hover-instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                </div>
+            }            
+        </div>
+    </section>
+</main>
+

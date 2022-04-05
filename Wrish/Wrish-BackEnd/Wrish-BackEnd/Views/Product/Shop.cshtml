@@ -1,0 +1,284 @@
+﻿@model ProductViewModel
+@{
+    int count = (ViewBag.SelectedPage - 1) * 8;
+}
+<main>
+    <section id="back-image">
+    </section>
+    <section id="shop-layout">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="sidebar_product sidebar">
+                        <div class="close-side-btn filter-icon">
+                            <span>CLOSE<i class="fas fa-times"></i></span>
+                        </div>
+                        <form method="post" id="filter-product">
+                            <div class="filter-category filter-title">
+                                <h3>Categories</h3>
+                                <div id="pa_category" class="filter-category-product">
+                                    @foreach (var gender in Model.Genders)
+                                    {
+                                        <div data-id_category="100" class="item-category">
+                                            <a asp-action="shop" asp-controller="product" asp-route-page="@ViewBag.SelectedPage"
+                                               asp-route-genderId="@gender.Id" asp-route-sizeId="@ViewBag.SizeId" asp-route-brandId="@ViewBag.BrandId" asp-route-colorId="@ViewBag.ColorId"
+                                               asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                               asp-route-select="@ViewBag.Select" class="name">@gender.Name</a>
+                                            <div class="count">@gender.Products.Where(x => !x.IsDeleted).Count()</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="filter-brand filter-title">
+                                <h3>Brands</h3>
+                                <div id="pa_brand" class="filter-brand-product">
+                                    @foreach (var brand in Model.Brands)
+                                    {
+                                        <div data-id_brand="400" class="item-brand">
+                                            <a asp-action="shop" asp-controller="product" asp-route-page="@ViewBag.SelectedPage"
+                                               asp-route-brandId="@brand.Id" asp-route-sizeId="@ViewBag.SizeId" asp-route-genderId="@ViewBag.GenderId" asp-route-colorId="@ViewBag.ColorId"
+                                               asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                               asp-route-select="@ViewBag.Select" class="name" style="text-transform:capitalize">@brand.Name</a>
+                                            <div class="count">@brand.Products.Where(x => !x.IsDeleted).Count()</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="filter-price">
+                                <div class="filter-title">
+                                    <h3>PRICE</h3>
+                                </div>
+                                <div class="range-slider pt--30">
+                                    <div class="sb-range-slider"></div>
+                                    <div class="slider-price">
+                                        <p>
+                                            <input type="text" id="amount" readonly="" />
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-color filter-title">
+                                <h3>COLOR</h3>
+                                <ul>
+                                    @foreach (var color in Model.Colors)
+                                    {
+                                        <li class="filter_color black">
+
+                                            <a asp-action="shop" asp-controller="product" asp-route-page="@ViewBag.SelectedPage"
+                                               asp-route-genderId="@ViewBag.GenderId" asp-route-brandId="@ViewBag.BrandId" asp-route-colorId="@color.Id"
+                                               asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                               asp-route-select="@ViewBag.Select" asp-route-sizeId="@ViewBag.SizeId" style="background-color: @color.Code">
+                                            </a>
+                                            <label class="count">@color.Name <mark>@color.ProductColors.Where(x=>x.ColorId==color.Id).Count()</mark></label>
+                                        </li>
+                                    }                                   
+                                </ul>
+                            </div>
+                            <div class="filter-size filter-title" style="margin-bottom:60px">
+                                <h3>SIZE</h3>
+                                <ul class="pa_size">
+                                    @foreach (var item in Model.Sizes)
+                                    {
+                                        <li class="size-item">
+                                            <a asp-action="shop" asp-controller="product" asp-route-page="@ViewBag.SelectedPage"
+                                               asp-route-genderId="@ViewBag.GenderId" asp-route-brandId="@ViewBag.BrandId" asp-route-colorId="@ViewBag.ColorId"
+                                               asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                               asp-route-select="@ViewBag.Select" asp-route-sizeId="@item.Id">
+                                                <label class="name">@item.Name</label>
+                                                <label class="count">(1)</label>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-12 col-sm-12">
+                    <div class="top-bar">
+                        <div class="filter-icon">
+                            <i class="fa-solid fa-arrow-down-wide-short"></i>
+                        </div>
+                        <div class="result-count">Showing all @Model.Products.Count results</div>
+                        <div class="sorting-selectbox">
+                            <form method="post">
+                                <select name="pets" id="pet-select" onchange="location = this.value;">
+                                    <option class="filter-option" value="shop?select=">Filter</option>
+                                    <option class="filter-option" value="shop?select=">All</option>
+                                    <option class="filter-option" value="shop?select=A-Z">Sort By: A-Z</option>
+                                    <option class="filter-option" value="shop?select=PLtH">Sort By Price: Low To High</option>
+                                    <option class="filter-option" value="shop?select=PHtL">Sort By Price: High To Low</option>
+                                    <option class="filter-option" value="shop?select=LaP">Sort By: Latest Arrivals</option>
+
+                                </select>
+                            </form>
+                        </div>
+                        <div class="combin">
+                            <span class="grid grid-2x2"> <i class="bi bi-grid-fill"></i> </span>
+                            <span class="grid grid-3x3"> <i class="bi bi-grid-3x3-gap-fill grid-active"></i> </span>
+                        </div>
+
+                    </div>
+                    <div class="row" id="productsDiv">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="shopModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @foreach (var product in Model.Products)
+                        {
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-12 col-sep">
+                                <div class="product-body">
+                                    <div class="img-body">
+                                        <a href="product-detail.html"><img class="img-fluid poster-img" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="xorus_red"></a>
+                                        <a asp-action="index" asp-controller="productdetail" asp-route-id="@product.Id"><img class="img-fluid hover-img" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==false).Image" alt="xorus_hover"></a>
+                                    </div>
+                                    @if (product.DiscountPrice > 0)
+                                    {
+                                        <span class="discount-percent">-@(product.DiscountPrice.ToString("#00"))%</span>
+                                    }
+                                    <div class="product-button animate__animated">
+                                        <a href="#" class="add-wishlist" data-id="@product.Id"><i class="fa-solid fa-heart product-wishlist"></i></a>
+                                        <a href="#" class="lupa single-lupa-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@product.Id"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                    </div>
+                                    <div class="product-content">
+                                        <a class="cat-products" href="#">@product.Brand.Name</a>
+                                        <a class="product-title" href="#">@product.Name</a>
+                                        <div class="price">
+                                            <span class="amount">
+                                                @if (product.DiscountPrice > 0)
+                                                {
+                                                    <bdi>$<span class="old-price">@product.SalePrice</span></bdi>
+                                                    <span class="dollar-symbol">$</span>
+                                                    @((product.SalePrice*(100-product.DiscountPrice)/100).ToString("#.00"))
+                                                }
+                                                else
+                                                {
+                                                    <span class="dollar-symbol">$</span>
+                                                    @product.SalePrice
+                                                }
+                                            </span>
+                                        </div>
+                                        <div class="btn-shop">
+                                            <a class="add-to-card add-basket" asp-action="addbasket" asp-controller="product" asp-route-productId="@product.Id"><span>ADD TO CART</span><i class="fa-solid fa-bag-shopping"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="pagenation">
+        <div class="container">
+            <div class="row justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @if (Model.Products.HasPrev)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="shop" asp-controller="product" asp-route-brandId="@ViewBag.BrandId"
+                                   asp-route-genderId="@ViewBag.GenderId" asp-route-sizeId="@ViewBag.SizeId" asp-route-colorId="@ViewBag.ColorId"
+                                   asp-route-page="@(Model.Products.PageIndex-1)"
+                                   asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                   asp-route-select="@ViewBag.Select" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        }
+                        @for (int i = 1; i <= Model.Products.PageIndex; i++)
+                        {
+                            @if (Model.Products.PageIndex - 1 == i)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="shop" asp-controller="product" asp-route-brandId="@ViewBag.BrandId"
+                                       asp-route-genderId="@ViewBag.GenderId" asp-route-sizeId="@ViewBag.SizeId" asp-route-colorId="@ViewBag.ColorId"
+                                       asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                       asp-route-select="@ViewBag.Select" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+                            @if (Model.Products.PageIndex == i)
+                            {
+                                <li class="page-item active">
+                                    <a class="page-link" asp-action="shop" asp-controller="product" asp-route-brandId="@ViewBag.BrandId"
+                                       asp-route-genderId="@ViewBag.GenderId" asp-route-sizeId="@ViewBag.SizeId" asp-route-colorId="@ViewBag.ColorId"
+                                       asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                       asp-route-select="@ViewBag.Select" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+                            @if (Model.Products.PageIndex + 1 == i)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="shop" asp-controller="product" asp-route-brandId="@ViewBag.BrandId"
+                                       asp-route-genderId="@ViewBag.GenderId" asp-route-sizeId="@ViewBag.SizeId" asp-route-colorId="@ViewBag.ColorId"
+                                       asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                       asp-route-select="@ViewBag.Select" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+
+                        }
+                        @if (Model.Products.HasNext)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="shop" asp-controller="product" asp-route-brandId="@ViewBag.BrandId"
+                                   asp-route-genderId="@ViewBag.GenderId" asp-route-sizeId="@ViewBag.SizeId" asp-route-colorId="@ViewBag.ColorId"
+                                   asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice"
+                                   asp-route-select="@ViewBag.Select" asp-route-page="@(Model.Products.PageIndex+1)" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts{
+    <script src="~/assets/js/shop-filter.js"></script>
+    <script src="~/assets/vendor/plugins.js"></script>
+    <script>
+        $(function () {
+            $(".sb-range-slider").slider({
+                range: true,
+                min: @ViewBag.MinPrice,
+                max: @ViewBag.MaxPrice,
+                values: [@ViewBag.SelectedMinPrice, @ViewBag.SelectedMaxPrice],
+                slide: function (event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                },
+                change: function (event, ui)
+                {
+                    let url = new URL(window.location.href);
+                    let params = new URLSearchParams(url.search);
+                    params.set("minPrice", ui.values[0]);
+                    params.set("maxPrice", ui.values[1]);
+                    url.search = params;
+                    window.location = url.href;
+                }
+            });
+            $("#amount").val(
+                "$" +
+                $(".sb-range-slider").slider("values", 0) +
+                " - $" +
+                $(".sb-range-slider").slider("values", 1)
+            );
+        });
+    </script>
+
+
+
+}
+
+
+
+
+

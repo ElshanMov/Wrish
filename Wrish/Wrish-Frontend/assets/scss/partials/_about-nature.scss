@@ -1,0 +1,16 @@
+@import "./variable";
+
+#nature-photo {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  .nature-image {
+    margin-bottom: 2rem;
+    overflow: hidden;
+    img {
+      transition: 0.7s all ease;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}

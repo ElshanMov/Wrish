@@ -1,0 +1,22 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "RejectedText";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center">RejectedText</h1>
+            <form method="post" asp-action="rejected" asp-controller="order" class="d-flex justify-content-center flex-wrap">
+                <span class="text-danger" asp-validation-for="RejectText"></span>
+                <textarea asp-for="RejectText" class="form-control" style="height:233px;min-height:233px;max-height:233px;" rows="3"></textarea>
+                <button type="submit" class="btn btn-primary btn-icon-split my-3 text-center"><span class="icon text-white-50"><i class="fas fa-check"></i></span><span class="text">Send Rejection Message</span></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -1,0 +1,19 @@
+﻿@model List<Product>
+@foreach (var product in Model)
+{
+    <li class="item-search">
+        <a class="item-image" asp-action="index" asp-controller="productdetail" asp-route-id="@product.Id">
+            <img class="img-fluid" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="search-img">
+        </a>
+        <div class="item-content">
+            <a href="product-detail.html">@product.Name</a>
+            <div class="price">
+                <span class="amount">
+                    <span class="dollar">$</span>
+                   @((product.DiscountPrice>0?product.SalePrice*(1-product.DiscountPrice/100):product.SalePrice).ToString("#.00"))
+                </span>
+            </div>
+        </div>
+    </li>
+}
+

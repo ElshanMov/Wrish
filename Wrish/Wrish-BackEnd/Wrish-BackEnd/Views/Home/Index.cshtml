@@ -1,0 +1,321 @@
+﻿@model HomeViewModel
+@{
+    int count = 0;
+}
+<main>
+    <section id="wrish-slider">
+        <div class="owl-carousel owl-theme">
+            @foreach (var item in Model.Sliders)
+            {
+                count++;
+
+                <div class="div slide slide-@count" style="background-image: url(@Url.Content("~/uploads/sliders/")@item.Image)">
+                    <div class="slide-content sc">
+                        <div class="animate-content animate__animated">
+                            <span>@item.Title1</span>
+                            <h1>@item.Title2</h1>
+                            <p>@item.Desc</p>
+                            <a asp-action="@item.ReturnUrl" asp-controller="product">@item.BtnText</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            
+        </div>
+    </section>
+    <section id="feature">
+        <div class="container">
+            <div class="row">
+                @foreach (var item in Model.Features)
+                {
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 feature-col">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                @Html.Raw(item.Icon)
+                            </div>
+                            <div class="feature-text">
+                                <h3>@item.Title</h3>
+                                <p>@item.Desc</p>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+                <div>
+                    <div class="feature-line"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="shop-by-brand">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h1>SHOP BY BRAND</h1>
+                    </div>
+                </div>
+                <div class="owl-carousel owl-brand">
+
+                    @foreach (var item in Model.Brands)
+                    {
+                        <div class="brand-slide-img">
+                            <div class="img-body">
+                                <img class="img-fluid" src="~/uploads/brands/@item.Image" alt="banner-9">
+                            </div>
+                            <a asp-action="shop" asp-controller="product" asp-route-brandId="@item.Id">@item.Name</a>
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="store-location">
+        <div class="container">
+            <div class="background-img">
+                <img class="img-fluid" src="./assets/images/settings/back.jpg" alt="back">
+                <div class="background-content">
+                    <h3>NEED A CLOSER LOOK? COME VISIT US IN STORE</h3>
+                    <h1>YOUR SPECIALIST WATCH STORE</h1>
+                    <a asp-action="contact" asp-controller="pages">STORE LOCATOR</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="latest-arrivals">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h1>Latest Arrivals</h1>
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-carousel owl-arrivals">
+                    @foreach (var product in Model.LatestProducts)
+                    {
+                        <div class="product-body">
+                            <div class="img-body">
+                                <a href="#"><img class="img-fluid poster-img" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="xorus_red"></a>
+                                <a asp-action="index" asp-controller="productdetail" asp-route-id="@product.Id"><img class="img-fluid hover-img" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==false).Image" alt="xorus_hover"></a>
+                            </div>
+                            @if (product.DiscountPrice > 0)
+                            {
+                                <span class="discount-percent">-@(product.DiscountPrice.ToString("#00"))%</span>
+                            }
+                            <div class="product-button animate__animated">
+                                <a  class="heart add-wishlist" data-id="@product.Id"><i class="fa-solid fa-heart product-wishlist"></i></a>
+                                <a href="#" class="lupa single-lupa-btn" data-id="@product.Id" data-bs-toggle="modal"><i class="fa-solid fa-magnifying-glass"></i></a>
+                            </div>
+
+                            <div class="product-content">
+                                <a class="cat-products" href="product-category.html">@product.Brand.Name</a>
+                                <a class="product-title" href="product-detail.html">@product.Name</a>
+                                <div class="price">
+                                    <span class="amount">
+                                        @if (product.DiscountPrice > 0)
+                                        {
+                                            <bdi>$<span class="old-price">@product.SalePrice</span></bdi>
+                                            <span class="dollar-symbol">$</span>
+                                            @((product.SalePrice*(100-product.DiscountPrice)/100).ToString("#.00"))
+                                        }
+                                        else
+                                        {
+                                            <span class="dollar-symbol">$</span>
+                                            @product.SalePrice
+                                        }
+                                    </span>
+                                </div>
+                                <div class="btn-shop">
+                                    <a class="add-to-card add-basket" asp-action="addbasket" asp-controller="product" asp-route-productId="@product.Id"><span>ADD TO CART</span><i class="fa-solid fa-bag-shopping"></i></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="feature-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <div class="feature-product-info">
+                        <h1>@Model.FeatureProducts.FirstOrDefault(x=>x.Key=="FProduct-Title").Value</h1>
+                        <h2>@Model.FeatureProducts.FirstOrDefault(x => x.Key == "FProduct-Name1").Value<br> @Model.FeatureProducts.FirstOrDefault(x => x.Key == "FProduct-Name2").Value</h2>
+                        <p>@Model.FeatureProducts.FirstOrDefault(x => x.Key == "FProduct-Desc").Value</p>
+                        <div class="feature-product-icon">
+                            <div class="waranty">
+                                @Html.Raw(Model.FeatureProducts.FirstOrDefault(x => x.Key == "FProduct-Icon1").Value)
+                                <p>@Model.FeatureProducts.FirstOrDefault(x => x.Key == "FProduct-Icon1Desc").Value</p>
+                            </div>
+                            <div class="waranty two">
+                                @Html.Raw(Model.FeatureProducts.FirstOrDefault(x => x.Key == "FProduct-Icon2").Value)
+                                <p>@Model.FeatureProducts.FirstOrDefault(x => x.Key == "FProduct-Icon2Desc").Value</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12">
+                    <div class="fp-image text-center">
+                        <img class="img-fluid" src="./uploads/featureproducts/@Model.FeatureProducts.FirstOrDefault(x => x.Key == "FProduct-Image").Value" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="best-seller">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h1>Sales Product</h1>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="bestseller" tabindex="-1" aria-labelledby="bestsellerLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <img class="img-fluid" src="./assets/images/best-seller/bering.jpg" alt="">
+                            </div>
+                            <div class="modal-body">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="detail-review">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="review-count">(<span>1</span> customer review)</span>
+                                </div>
+                                <h1 class="product-name">Paul Hewitt Breakwater Blue Lagoon</h1>
+                                <div class="price-single">
+                                    <div class="old-price"><span>$</span>60.00</div>
+                                    <span>$</span>49.00
+                                    <span class="discount-border">-18%</span>
+                                </div>
+                                <div class="description">
+                                    <p>
+                                        The EcoSmart Fleece Hoodie full-zip hooded jacket provides
+                                        medium weight fleece comfort all year around. Feel better in
+                                        this sweatshirt because Hanes keeps plastic bottles of
+                                        landfills by using recycled polyester.7.8 ounce fleece
+                                        sweatshirt made with up to 5 percent polyester created from
+                                        recycled plastic.
+                                    </p>
+                                </div>
+                                <form method="post">
+
+                                    <div class="detail-addtocard">
+
+                                        <div class="quantity">
+                                            <button type="button" class="button minus" data-quantity="minus" data-field="quantity">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            </button>
+                                            <input class="input-group-field" name="quantity" value="0">
+                                            <button type="button" class="button hollow plus" data-quantity="plus" data-field="quantity">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                        <button class="add" type="submit">ADD TO CART</button>
+                                        <a class="wish-list" href="#">
+                                            <i class="fa-solid fa-heart"></i>
+                                        </a>
+                                    </div>
+                                    <div class="detail-buy-now">
+                                        <a href="buy-now">BUY NOW</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-carousel owl-arrivals">
+                    @foreach (var product in Model.SalesProducts)
+                    {
+                        <div class="product-body">
+                            <div class="img-body">
+                                <a href="#"><img class="img-fluid poster-img" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="xorus_red"></a>
+                                <a asp-action="index" asp-controller="productdetail" asp-route-id="@product.Id"><img class="img-fluid hover-img" src="~/uploads/products/@product.ProductImages.FirstOrDefault(x=>x.PosterStatus==false).Image" alt="xorus_hover"></a>
+                            </div>
+                            <span class="discount-percent">-@(product.DiscountPrice.ToString("#00"))%</span>
+                            <div class="product-button animate__animated">
+                                <a href="#"><i class="fa-solid fa-heart product-wishlist"></i></a>
+                                <a href="#" class="lupa single-lupa-btn" data-bs-toggle="modal" data-id="@product.Id"><i class="fa-solid fa-magnifying-glass"></i></a>
+                            </div>
+                            <div class="product-content">
+                                <a class="cat-products" href="product-category.html">@product.Brand.Name</a>
+                                <a class="product-title" href="product-detail.html">@product.Name</a>
+                                <div class="price">
+                                    <span class="amount">
+                                        <bdi>$<span class="old-price">@product.SalePrice</span></bdi>
+                                        <span class="dollar-symbol">$</span>
+                                        @((product.SalePrice*(100-product.DiscountPrice)/100).ToString("#.00"))
+                                    </span>
+                                </div>
+                                <div class="btn-shop">
+                                    <a class="add-to-card add-basket" asp-action="addbasket" asp-controller="product" asp-route-productId="@product.Id"><span>ADD TO CART</span><i class="fa-solid fa-bag-shopping"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    }                   
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="category">
+        <div class="container">
+            <div class="row">
+                @foreach (var item in Model.Genders)
+                {
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <div class="category-body">
+                            <div class="category-img">
+                                <img class="img-fluid" src="~/uploads/genders/@item.Image" alt="gender-img">
+                                <div class="bufer">
+                                    <div class="info">
+                                        <div class="content">
+                                            <h3>@item.Name WATCHES</h3>
+                                            <a asp-action="shop" asp-controller="product" asp-route-gender="@item.Id">SHOP NOW</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }              
+            </div>
+        </div>
+    </section>
+    <section id="instagram">
+        <div class="owl-carousel owl-instagram">
+            @foreach (var item in Model.InstaImages)
+            {
+                <div class="instagram-image">
+                    <img src="~/uploads/instaimages/@item.Image" alt="instagram_image">
+                    <div class="hover-instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                </div>
+
+            }           
+        </div>
+    </section>
+</main>
+
+@section Scripts{
+    <script src="~/assets/js/plmins.js"></script>
+}

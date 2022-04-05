@@ -1,0 +1,62 @@
+@import "./variable";
+
+#about-intro {
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #e5e5e5;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  .intro-text {
+    .text-title {
+      margin-bottom: 1.5rem;
+      h2 {
+        color: $main-color;
+        font-size: 30px;
+        font-weight: 400;
+        text-transform: uppercase;
+        line-height: 35px;
+        letter-spacing: 2px;
+      }
+    }
+
+    .text-editor {
+      margin: 1em 0rem 3rem 0rem;
+      p {
+        color: #868686;
+        font-size: 15px;
+        font-weight: 400;
+        margin: 0;
+      }
+    }
+    .text-button {
+      margin-bottom: 2rem;
+      a {
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        fill: $main-color;
+        color: $main-color;
+        border-style: solid;
+        border-width: 2px 2px 2px 2px;
+        border-radius: 0 0 0 0;
+        display: inline-block;
+        line-height: 1;
+        padding: 12px 24px;
+        text-align: center;
+        transition: all 0.3s;
+        &:hover {
+          background-color: $main-color;
+          color: #fff;
+          border: 2px solid black;
+        }
+      }
+    }
+  }
+  .intro-image {
+    &:hover {
+      animation: shakeX;
+      animation-duration: 1.7s;
+    }
+  }
+}

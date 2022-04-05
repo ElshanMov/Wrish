@@ -1,0 +1,28 @@
+@import "./variable";
+
+#pagenation {
+  margin-bottom: 3rem;
+  .pagination {
+    justify-content: center;
+    .page-link {
+      border-radius: 0;
+      border-color: #ddd;
+      box-shadow: none;
+      &:hover {
+        background-color: $main-color !important;
+      }
+    }
+    li {
+      margin-left: 0.25rem;
+      margin-right: 0.25rem;
+
+      a {
+        color: $font-color;
+        &:hover {
+          color: white;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

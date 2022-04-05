@@ -1,0 +1,121 @@
+@import "./variable";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Jost", sans-serif;
+}
+
+ul {
+  list-style: none;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.container {
+  max-width: 1770px;
+  width: 100%;
+  padding-right: 30px !important;
+  padding-left: 30px !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.section-title {
+  h1 {
+    margin-bottom: 2.5rem;
+    text-align: center;
+    color: $main-color;
+    font-size: 22px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}
+
+//top-bar
+header {
+  #topbar {
+    @media (max-width: 991px) {
+      display: none;
+    }
+  }
+  #navbar-mobile {
+    @media (max-width: 991px) {
+      display: block;
+    }
+  }
+
+  #mobile-bottom {
+    @media (max-width: 991px) {
+      display: block;
+    }
+  }
+
+  #navbar {
+    @media (max-width: 991px) {
+      display: none;
+    }
+  }
+}
+
+#commerce-pages-header {
+  padding-top: 5rem;
+  margin-bottom: 3rem;
+  .commerce-page-header {
+    ul {
+      display: flex;
+      justify-content: center;
+      @media (max-width: 609px) {
+        display: block;
+        text-align: center;
+      }
+      li {
+        margin: 0 20px;
+        font-size: 25px;
+        font-weight: 400;
+        @media (max-width: 609px) {
+          margin: 0px 20px 18px 20px;
+        }
+        a {
+          color: #868686;
+          position: relative;
+          padding-bottom: 5px;
+
+          &::before {
+            content: "";
+            width: 0;
+            height: 2px;
+            background: #000;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            left: 50%;
+            -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            position: absolute;
+            bottom: -1px;
+          }
+
+          &:hover {
+            color: #000;
+            &::before {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+  .active {
+    color: #000 !important;
+    border-bottom: 2px solid #000;
+    &:hover {
+      border: none;
+    }
+  }
+}

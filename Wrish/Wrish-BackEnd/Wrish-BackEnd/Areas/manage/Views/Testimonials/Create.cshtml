@@ -1,0 +1,40 @@
+﻿@model Testimonial
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1>Testimonials Create</h1>
+            <form asp-action="create" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label asp-for="FullName" class="form-label">Full Name</label>
+                    <input asp-for="FullName" class="form-control">
+                    <span class="text-danger" asp-validation-for="FullName"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Desc" class="form-label">Description</label>
+                    <textarea asp-for="Desc" class="form-control" style="height:180px;min-height:180px;max-height:180px;" rows="3"></textarea>
+                    <span class="text-danger" asp-validation-for="Desc"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ReviewCount" class="form-label">Review Count</label>
+                    <input asp-for="ReviewCount" class="form-control">
+                    <span class="text-danger" asp-validation-for="ReviewCount"></span>
+                </div>
+                <div class="mb-3">
+                    <div class="custom-file">
+                        <input asp-for="ImageFile" class="custom-file-input"  aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" asp-for="ImageFile">Choose file</label>
+                        <span class="text-danger" asp-validation-for="ImageFile"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

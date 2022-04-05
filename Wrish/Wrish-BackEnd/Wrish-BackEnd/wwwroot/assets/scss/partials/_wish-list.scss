@@ -1,0 +1,97 @@
+@import "./variable";
+
+#wishlist {
+  padding: 3rem 0;
+  .content-items {
+    border: 1px solid #ddd;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    .content-item {
+      @media (max-width: 767px) {
+        display: block;
+        .stock {
+          display: inline-block;
+        }
+        .item-add {
+          margin-left: 3rem;
+        }
+      }
+    }
+
+    td {
+      border: 0;
+      background: transparent !important;
+      padding: 15px 10px !important;
+    }
+    .remove {
+      vertical-align: middle;
+      width: 16px;
+      i {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        text-align: center;
+        cursor: pointer;
+        color: $font-color;
+      }
+    }
+    .image {
+      width: 100px;
+      a {
+        width: 80px;
+        height: 80px;
+        img {
+          border: 1px solid #ddd;
+          border-radius: 6px;
+        }
+      }
+    }
+    .info {
+      .name {
+        a {
+          font-weight: 700;
+          color: $main-color;
+          font-size: 15px;
+        }
+      }
+      .price {
+        span {
+          font-size: 18px;
+          color: #000;
+          font-weight: 500;
+        }
+      }
+      .time {
+        font-size: 12px;
+        color: $font-color;
+      }
+    }
+    .actions {
+      padding-left: 30px !important;
+      @media (max-width: 767px) {
+        width: 100%;
+        display: block;
+        border-top: dotted 1px #ddd;
+        border-bottom: dotted 1px #ddd;
+      }
+      .stock {
+        font-size: 14px;
+        color: $font-color;
+      }
+      .item-add {
+        a {
+          color: #fff;
+        }
+        display: inline-block !important;
+        line-height: 28px;
+        background: #000;
+        padding: 0 10px !important;
+        font-size: 12px !important;
+        margin-top: 15px;
+      }
+    }
+  }
+}

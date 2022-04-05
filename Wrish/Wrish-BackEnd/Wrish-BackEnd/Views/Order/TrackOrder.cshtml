@@ -1,0 +1,113 @@
+﻿@model OrderTrackViewModel
+@{
+    ViewData["Title"] = "TrackOrder";
+}
+
+
+<main>
+    <section id="commerce-pages-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="commerce-page-header">
+                        <ul>
+                            <li><a asp-action="checkout" asp-controller="order">Checkout</a></li>
+                            <li><a class="active" asp-action="trackorder" asp-controller="order">Order Tracking</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="track">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <form method="post" id="trackform">
+                        <p>To track your order please enter your Order Code in the box below and press the "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</p>
+                        <div class="form-group">
+                            <label asp-for="Code">Order Code</label>
+                            <input type="text" class="form-control" asp-for="Code" placeholder="Enter your order confirmation code.">
+                            <span class="text-danger" asp-validation-for="Code"></span>
+                        </div>
+                        @*<div class="form-group">
+                                <label for="email">Billin email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Email you used during checkout.">
+                            </div>*@
+                        <button type="submit">TRACK</button>
+                    </form>
+                </div>
+                @if (Model?.Order != null)
+                {
+                    <div class="col-lg-8 mx-auto mt-5">
+                        <div class="panel panel-default">                            
+                            <div class="panel-body">
+                                <table class="table table-condensed table-striped">
+                                    <thead class="text-white table-dark">
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>CreatedAt</th>
+                                            <th>Status</th>
+                                            <th>DeliveryStatus</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+
+                                        <tr data-bs-toggle="collapse" data-bs-target="#demo1" class="accordion-toggle">
+                                            <td>@(Model.Order.CodePrefix+ Model.Order.CodeNumber)</td>
+                                            <td>@Model.Order.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                            <td>@Model.Order.Status</td>
+                                            <td>@(Model.Order.DeliveryStatus==null?"unspecified":Model.Order.DeliveryStatus.ToString())</td>
+                                            <td>@Model.Order.TotalAmount</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="12" style="padding: 0 !important;">
+                                                <div class="accordian-body collapse" id="demo1">
+                                                    <table class="table table-striped">
+                                                        <thead class="">
+                                                            <tr class="info">
+                                                                <th>Product Name</th>
+                                                                <th>Price</th>
+                                                                <th>DiscountPercent</th>
+                                                                <th>SoldPrice</th>
+                                                                <th>Count</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @foreach (var item in Model.Order.OrderItems)
+                                                            {
+                                                                <tr data-bs-toggle="collapse" class="accordion-toggle" data-bs-target="#demo10">
+                                                                    <td> <a style="color:#000" asp-action="index" asp-controller="productdetail" asp-route-id="@item.ProductId">@item.Product.Name</a></td>
+                                                                    <td>@item.SalePrice</td>
+                                                                    <td>@item.DiscountPrice</td>
+                                                                    <td>@((item.DiscountPrice>0?item.SalePrice*(1-item.DiscountPrice/100):item.SalePrice).ToString("0.00"))</td>
+                                                                    <td>@item.Count</td>
+                                                                </tr>
+
+                                                            }
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                }
+            </div>
+        </div>
+    </section>
+</main>
